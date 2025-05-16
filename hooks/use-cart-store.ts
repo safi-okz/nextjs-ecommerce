@@ -17,10 +17,13 @@ const initialState: Cart = {
 interface CartState {
   cart: Cart
   addItem: (item: OrderItem, quantity: number) => Promise<string>
+
+   updateItem: (item: OrderItem, quantity: number) => Promise<void>
+   removeItem: (item: OrderItem) => void
 }
 
 const useCartStore = create(
-  persist<CartState>(
+  persist<CartState>(                                                                                                                                                                                                                                                                               
     (set, get) => ({
       cart: initialState,
 
@@ -70,6 +73,50 @@ const useCartStore = create(
             x.size === item.size
         )?.clientId!
       },
+      updateItem: async (item: OrderItem, quantity: number) => {
+     const { items } = get().cart
+     const exist = items.find(
+       (x) =>
+         x.product === item.product &&
+         x.color === item.color &&
+         x.size === item.size
+     )
+     if (!exist) return
+     const updatedCartItems = items.map((x) =>
+       x.product === item.product &&
+       x.color === item.color &&
+       x.size === item.size
+         ? { ...exist, quantity: quantity }
+         : x
+     )
+     set({
+       cart: {
+         ...get().cart,
+         items: updatedCartItems,
+         ...(await calcDeliveryDateAndPrice({
+           items: updatedCartItems,
+         })),
+       },
+     })
+   },
+   removeItem: async (item: OrderItem) => {
+     const { items } = get().cart
+     const updatedCartItems = items.filter(
+       (x) =>
+         x.product !== item.product ||
+         x.color !== item.color ||
+         x.size !== item.size
+     )
+     set({                                                                                                                                                                 
+       cart: {
+         ...get().cart,
+         items: updatedCartItems,                                                                                                                                                                    
+         ...(await calcDeliveryDateAndPrice({
+           items: updatedCartItems,
+         })),
+       },
+     })
+   },                                                                                                           
       init: () => set({ cart: initialState }),
     }),
     {
