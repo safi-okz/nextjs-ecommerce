@@ -1,5 +1,5 @@
 'use server'
-import { signIn, signOut } from '@/auth'
+import { signIn, signOut } from '../../../auth'
 import { IUserSignIn } from '@/types'
 import { redirect } from 'next/navigation'
 
