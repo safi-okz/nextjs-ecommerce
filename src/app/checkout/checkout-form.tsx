@@ -32,9 +32,9 @@ import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import CheckoutFooter from "./checkout-footer";
 import { ShippingAddress } from "@/types";
-import useIsMounted from "@/hooks/use-is-mounted";
+import useIsMounted from "../../../hooks/use-is-mounted";
 import Link from "next/link";
-import useCartStore from "@/hooks/use-cart-store";
+import useCartStore from "../../../hooks/use-cart-store";
 import ProductPrice from "@/components/shared/product/product-price";
 import {
   APP_NAME,
