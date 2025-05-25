@@ -1,3 +1,4 @@
+'use server'
 import { OrderItem, ShippingAddress, Cart } from '@/types'
 import { round2 } from '../utils'
 import { FREE_SHIPPING_MIN_PRICE, AVAILABLE_DELIVERY_DATES } from '../constants'
