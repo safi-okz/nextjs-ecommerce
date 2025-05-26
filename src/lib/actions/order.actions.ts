@@ -75,7 +75,7 @@ export async function approvePayPalOrder(
       message: 'Your order has been successfully paid by PayPal',
     }
   } catch (err) {
-    return { success: false, message: formatError(err) }
+    return { success: false, message: err }
   }
 }
 
@@ -96,7 +96,7 @@ export const createOrder = async (clientSideCart: Cart) => {
       data: { orderId: createdOrder._id.toString() },
     }
   } catch (error) {
-    return { success: false, message: formatError(error) }
+    return { success: false, message: error }
   }
 }
 export const createOrderFromCart = async (
