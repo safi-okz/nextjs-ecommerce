@@ -1,3 +1,6 @@
+export const SERVER_URL =
+  process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
+
 export const SENDER_NAME = process.env.SENDER_NAME || 'support'
 export const SENDER_EMAIL = process.env.SENDER_EMAIL || 'onboarding@resend.dev'
 
