@@ -11,6 +11,12 @@ export interface IUser extends Document, IUserInput {
   _id: string
   createdAt: Date
   updatedAt: Date
+  password: string
+  name: string
+  email: string
+  role: string
+  image?: string
+  emailVerified?: boolean
 }
 
 const userSchema = new Schema<IUser>(

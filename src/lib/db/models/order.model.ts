@@ -5,6 +5,11 @@ export interface IOrder extends Document, IOrderInput {
   _id: string
   createdAt: Date
   updatedAt: Date
+  user: {
+    email: string;
+    name?: string;
+    id?: string;
+  };
 }
 
 const orderSchema = new Schema<IOrder>(
