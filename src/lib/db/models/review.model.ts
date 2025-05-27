@@ -1,4 +1,4 @@
-import { IReviewInput } from '@/types'
+import { IReviewInput } from '../../../../types'
 import { Document, Model, model, models, Schema } from 'mongoose'
 
 export interface IReview extends Document, IReviewInput {
