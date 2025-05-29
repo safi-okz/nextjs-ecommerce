@@ -205,3 +205,7 @@ export const OrderInputSchema = z.object({
 // export const CartSchema = z.object({
 //   shippingAddress: z.optional(ShippingAddressSchema),
 // })
+
+export const UserNameSchema = z.object({
+  name: UserName,
+})
