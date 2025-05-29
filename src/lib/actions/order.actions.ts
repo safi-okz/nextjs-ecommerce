@@ -1,7 +1,7 @@
 'use server'
 import { OrderItem, ShippingAddress, Cart } from '@/types'
 import { round2 } from '../utils'
-import { AVAILABLE_DELIVERY_DATES } from '../constants'
+import { AVAILABLE_DELIVERY_DATES, PAGE_SIZE } from '../constants'
 import { connectToDatabase } from '../db'
 import { auth } from '../../../auth';
 import { OrderInputSchema } from '../validator';
@@ -172,5 +172,34 @@ const totalPrice = round2(
     deliveryDateIndex === undefined
       ? AVAILABLE_DELIVERY_DATES.length - 1
       : deliveryDateIndex,
+  }
+}
+
+// GET
+export async function getMyOrders({
+  limit,
+  page,
+}: {
+  limit?: number
+  page: number
+}) {
+  limit = limit || PAGE_SIZE
+  await connectToDatabase()
+  const session = await auth()
+  if (!session) {
+    throw new Error('User is not authenticated')
+  }
+  const skipAmount = (Number(page) - 1) * limit
+  const orders = await Order.find({
+    user: session?.user?.id,
+  })
+    .sort({ createdAt: 'desc' })
+    .skip(skipAmount)
+    .limit(limit)
+  const ordersCount = await Order.countDocuments({ user: session?.user?.id })
+
+  return {
+    data: JSON.parse(JSON.stringify(orders)),
+    totalPages: Math.ceil(ordersCount / limit),
   }
 }
